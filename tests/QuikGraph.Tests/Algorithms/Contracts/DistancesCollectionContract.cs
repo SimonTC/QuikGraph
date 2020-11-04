@@ -73,7 +73,44 @@ namespace QuikGraph.Tests.Algorithms.Contracts
 
             IDistancesCollection<string> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
+            // ReSharper disable AssignNullToNotNullAttribute
             Assert.Throws<ArgumentNullException>( () => algorithm.TryGetDistance(null, out _));
+            // ReSharper restore AssignNullToNotNullAttribute
+        }
+
+        [Test]
+        public void DistanceReturned_WhenVertexIsAccessibleFromRoot()
+        {
+            var scenario = new ContractScenario<int>
+            {
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
+                AccessibleVerticesFromRoot = new[] { 2 },
+                Root = 1,
+                DoComputation = true
+            };
+
+            IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
+
+            var distanceFound = algorithm.TryGetDistance(2, out _);
+            Assert.True(distanceFound, "Distance should have been found since the vertex is accessible from root.");
+        }
+
+        [Test]
+        public void DistanceReturned_WhenVertexExistsButIsInaccessibleFromRoot()
+        {
+            var scenario = new ContractScenario<int>
+            {
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
+                SingleVerticesInGraph = new[] { 3 },
+                AccessibleVerticesFromRoot = new[] { 2 },
+                Root = 1,
+                DoComputation = true
+            };
+
+            IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
+
+            var distanceFound = algorithm.TryGetDistance(3, out _);
+            Assert.True(distanceFound, "Distance should have been found since the vertex exist in the graph.");
         }
 
         [Pure]
