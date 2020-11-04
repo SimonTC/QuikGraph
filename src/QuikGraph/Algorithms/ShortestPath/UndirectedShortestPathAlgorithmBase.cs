@@ -15,6 +15,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         : RootedAlgorithmBase<TVertex, IUndirectedGraph<TVertex, TEdge>>
         , IVertexColorizerAlgorithm<TVertex>
         , IUndirectedTreeBuilderAlgorithm<TVertex, TEdge>
+        , IDistancesCollection<TVertex>
         where TEdge : IEdge<TVertex>
     {
         /// <summary>
@@ -49,12 +50,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             DistanceRelaxer = distanceRelaxer ?? throw new ArgumentNullException(nameof(distanceRelaxer));
         }
 
-        /// <summary>
-        /// Tries to get the distance associated to the given <paramref name="vertex"/>.
-        /// </summary>
-        /// <param name="vertex">The vertex.</param>
-        /// <param name="distance">Associated distance.</param>
-        /// <returns>True if the distance was found, false otherwise.</returns>
+        /// <inheritdoc />
         public bool TryGetDistance([NotNull] TVertex vertex, out double distance)
         {
             if (vertex == null)
@@ -65,9 +61,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             return Distances.TryGetValue(vertex, out distance);
         }
 
-        /// <summary>
-        /// Vertices distances.
-        /// </summary>
+        /// <inheritdoc />
         public IDictionary<TVertex, double> Distances { get; private set; }
 
         /// <summary>
