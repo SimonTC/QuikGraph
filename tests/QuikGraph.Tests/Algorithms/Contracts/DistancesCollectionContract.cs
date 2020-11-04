@@ -25,6 +25,15 @@ namespace QuikGraph.Tests.Algorithms.Contracts
             _testedAlgorithm = algorithmToTest;
         }
 
+        [SetUp]
+        public void IgnoreIfInterfaceIsNotImplemented()
+        {
+            if (_testedAlgorithm == typeof(TSP<,,>))
+            {
+                Assert.Ignore("The TSP algorithm does not implement distance collection functionality.");
+            }
+        }
+
         [Test]
         public void NoDistanceFound_WhenVertexDoesNotExistInGraph()
         {
