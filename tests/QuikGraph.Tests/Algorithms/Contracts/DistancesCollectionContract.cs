@@ -59,6 +59,23 @@ namespace QuikGraph.Tests.Algorithms.Contracts
             Assert.Throws<InvalidOperationException>( () => algorithm.TryGetDistance(2, out _));
         }
 
+        [Test]
+        public void ExceptionThrown_WhenTargetVertexIsNull()
+        {
+            var scenario = new ContractScenario<string>
+            {
+                EdgesInGraph = new[] { new Edge<string>("1", "2") },
+                SingleVerticesInGraph = new string[0],
+                AccessibleVerticesFromRoot = new[] { "2" },
+                Root = "1",
+                DoComputation = false
+            };
+
+            IDistancesCollection<string> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
+
+            Assert.Throws<ArgumentNullException>( () => algorithm.TryGetDistance(null, out _));
+        }
+
         [Pure]
         [NotNull]
         private IDistancesCollection<T> CreateAlgorithmAndMaybeDoComputation<T>(
