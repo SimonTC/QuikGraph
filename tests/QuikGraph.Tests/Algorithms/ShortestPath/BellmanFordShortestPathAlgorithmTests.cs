@@ -328,15 +328,15 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
 
         [Pure]
         [NotNull]
-        public static BellmanFordShortestPathAlgorithm<int, Edge<int>> CreateAlgorithmAndMaybeDoComputation(
-            [NotNull] ContractScenario scenario)
+        public static BellmanFordShortestPathAlgorithm<T, Edge<T>> CreateAlgorithmAndMaybeDoComputation<T>(
+            [NotNull] ContractScenario<T> scenario)
         {
-            var graph = new AdjacencyGraph<int, Edge<int>>();
-            graph.AddVerticesAndEdgeRange(scenario.EdgesInGraph.Select(e => new Edge<int>(e.Source, e.Target)));
+            var graph = new AdjacencyGraph<T, Edge<T>>();
+            graph.AddVerticesAndEdgeRange(scenario.EdgesInGraph.Select(e => new Edge<T>(e.Source, e.Target)));
             graph.AddVertexRange(scenario.SingleVerticesInGraph);
 
-            double Weights(Edge<int> e) => 1.0;
-            var algorithm = new BellmanFordShortestPathAlgorithm<int, Edge<int>>(graph, Weights);
+            double Weights(Edge<T> e) => 1.0;
+            var algorithm = new BellmanFordShortestPathAlgorithm<T, Edge<T>>(graph, Weights);
 
             if (scenario.DoComputation)
                 algorithm.Compute(scenario.Root);

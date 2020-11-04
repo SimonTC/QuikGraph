@@ -335,15 +335,15 @@ namespace QuikGraph.Tests.Algorithms.TSP
 
         [Pure]
         [NotNull]
-        public static TSP<int, EquatableEdge<int>, BidirectionalGraph<int, EquatableEdge<int>>> CreateAlgorithmAndMaybeDoComputation(
-            [NotNull] ContractScenario scenario)
+        public static TSP<T, EquatableEdge<T>, BidirectionalGraph<T, EquatableEdge<T>>> CreateAlgorithmAndMaybeDoComputation<T>(
+            [NotNull] ContractScenario<T> scenario)
         {
-            var graph = new BidirectionalGraph<int, EquatableEdge<int>>();
-            graph.AddVerticesAndEdgeRange(scenario.EdgesInGraph.Select(e => new EquatableEdge<int>(e.Source, e.Target)));
+            var graph = new BidirectionalGraph<T, EquatableEdge<T>>();
+            graph.AddVerticesAndEdgeRange(scenario.EdgesInGraph.Select(e => new EquatableEdge<T>(e.Source, e.Target)));
             graph.AddVertexRange(scenario.SingleVerticesInGraph);
 
-            double Weights(Edge<int> e) => 1.0;
-            var algorithm = new TSP<int, EquatableEdge<int>, BidirectionalGraph<int, EquatableEdge<int>>>(graph, Weights);
+            double Weights(Edge<T> e) => 1.0;
+            var algorithm = new TSP<T, EquatableEdge<T>, BidirectionalGraph<T, EquatableEdge<T>>>(graph, Weights);
 
             if (scenario.DoComputation)
                 algorithm.Compute(scenario.Root);

@@ -28,7 +28,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         [Test]
         public void NoDistanceFound_WhenVertexDoesNotExistInGraph()
         {
-            var scenario = new ContractScenario
+            var scenario = new ContractScenario<int>
             {
                 EdgesInGraph = new[] { new Edge<int>(1, 2) },
                 AccessibleVerticesFromRoot = new[] { 2 },
@@ -45,7 +45,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         [Test]
         public void ExceptionThrown_WhenAlgorithmHasNotYetBeenComputed()
         {
-            var scenario = new ContractScenario
+            var scenario = new ContractScenario<int>
             {
                 EdgesInGraph = new[] { new Edge<int>(1, 2) },
                 SingleVerticesInGraph = new int[0],
@@ -61,16 +61,16 @@ namespace QuikGraph.Tests.Algorithms.Contracts
 
         [Pure]
         [NotNull]
-        private IDistancesCollection<int> CreateAlgorithmAndMaybeDoComputation(
-            [NotNull] ContractScenario scenario)
+        private IDistancesCollection<T> CreateAlgorithmAndMaybeDoComputation<T>(
+            [NotNull] ContractScenario<T> scenario)
         {
-            var instantiateAlgorithm = GetAlgorithmFactory();
+            var instantiateAlgorithm = GetAlgorithmFactory<T>();
             return instantiateAlgorithm(scenario);
         }
 
         [Pure]
         [NotNull]
-        private Func<ContractScenario, IDistancesCollection<int>> GetAlgorithmFactory()
+        private Func<ContractScenario<T>, IDistancesCollection<T>> GetAlgorithmFactory<T>()
         {
             return _testedAlgorithm switch
             {
