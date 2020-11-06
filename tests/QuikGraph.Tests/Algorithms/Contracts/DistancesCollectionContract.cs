@@ -122,6 +122,23 @@ namespace QuikGraph.Tests.Algorithms.Contracts
             Assert.True(distanceFound, "Distance should have been found since the vertex exist in the graph.");
         }
 
+        [Test]
+        public void TryGetDistanceReturnsSameDistanceAsDistanceDictionary()
+        {
+            var scenario = new ContractScenario<int>
+            {
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
+                AccessibleVerticesFromRoot = new[] { 2 },
+                Root = 1,
+                DoComputation = true
+            };
+
+            IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
+
+            algorithm.TryGetDistance(2, out var distance);
+            Assert.AreEqual(algorithm.Distances[2], distance);
+        }
+
         [Pure]
         [NotNull]
         private IDistancesCollection<T> CreateAlgorithmAndMaybeDoComputation<T>(
