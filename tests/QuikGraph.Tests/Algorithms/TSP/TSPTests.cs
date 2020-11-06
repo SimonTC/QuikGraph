@@ -173,25 +173,6 @@ namespace QuikGraph.Tests.Algorithms.TSP
 
         #endregion
 
-        #region Shortest path algorithm
-
-        [Test]
-        public void TryGetDistance_Throws()
-        {
-            // Algorithm don't use the Distances
-            var graph = new BidirectionalGraph<int, EquatableEdge<int>>();
-            graph.AddVertex(1);
-            var algorithm = new TSP<int, EquatableEdge<int>, BidirectionalGraph<int, EquatableEdge<int>>>(graph, edge => 1.0);
-            algorithm.Compute(1);
-            Assert.IsFalse(algorithm.TryGetDistance(1, out double _));
-
-            var graph2 = new BidirectionalGraph<TestVertex, EquatableEdge<TestVertex>>();
-            var algorithm2 = new TSP<TestVertex, EquatableEdge<TestVertex>, BidirectionalGraph<TestVertex, EquatableEdge<TestVertex>>>(graph2, edge => 1.0);
-            TryGetDistance_Throws_Test(algorithm2);
-        }
-
-        #endregion
-
         [Test]
         public void GetVertexColor_Throws()
         {

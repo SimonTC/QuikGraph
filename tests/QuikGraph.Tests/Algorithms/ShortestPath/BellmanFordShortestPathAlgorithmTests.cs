@@ -225,27 +225,6 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
 
         #endregion
 
-        #region Shortest path algorithm
-
-        [Test]
-        public void TryGetDistance()
-        {
-            var graph = new AdjacencyGraph<int, Edge<int>>();
-            graph.AddVertex(1);
-            var algorithm = new BellmanFordShortestPathAlgorithm<int, Edge<int>>(graph, edge => 1.0);
-            TryGetDistance_Test(algorithm);
-        }
-
-        [Test]
-        public void TryGetDistance_Throws()
-        {
-            var graph = new AdjacencyGraph<TestVertex, Edge<TestVertex>>();
-            var algorithm = new BellmanFordShortestPathAlgorithm<TestVertex, Edge<TestVertex>>(graph, edge => 1.0);
-            TryGetDistance_Throws_Test(algorithm);
-        }
-
-        #endregion
-
         [Test]
         public void GetVertexColor()
         {
