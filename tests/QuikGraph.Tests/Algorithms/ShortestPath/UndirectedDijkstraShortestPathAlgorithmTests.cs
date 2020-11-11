@@ -14,7 +14,7 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
     /// Tests for <see cref="UndirectedDijkstraShortestPathAlgorithm{TVertex,TEdge}"/>.
     /// </summary>
     [TestFixture]
-    internal class UndirectedDijkstraShortestPathAlgorithmTests : ShortestPathAlgorithmTestsBase
+    internal class UndirectedDijkstraShortestPathAlgorithmTests : RootedAlgorithmTestsBase
     {
         #region Test helpers
 

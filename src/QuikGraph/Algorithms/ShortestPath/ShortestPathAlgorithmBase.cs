@@ -53,7 +53,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         }
 
         /// <inheritdoc />
-        public bool TryGetDistance([NotNull] TVertex vertex, out double distance)
+        public bool TryGetDistance(TVertex vertex, out double distance)
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));

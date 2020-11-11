@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using JetBrains.Annotations;
 using NUnit.Framework;
 using QuikGraph.Algorithms;
@@ -14,7 +13,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
     /// Contract tests for <see cref="IDistancesCollection{TVertex}"/>.
     /// </summary>
     [TestFixtureSource(typeof(AlgorithmsProvider), nameof(AlgorithmsProvider.DistanceCollectors))]
-    public class DistancesCollectionContract
+    internal class DistancesCollectionContract
     {
         [NotNull]
         private readonly Type _testedAlgorithm;
@@ -47,7 +46,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
 
             IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
-            var distanceFound = algorithm.TryGetDistance(3, out _);
+            bool distanceFound = algorithm.TryGetDistance(3, out _);
             Assert.False(distanceFound, "No distance should have been found since the vertex does not exist.");
         }
 
@@ -100,7 +99,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
 
             IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
-            var distanceFound = algorithm.TryGetDistance(2, out _);
+            bool distanceFound = algorithm.TryGetDistance(2, out _);
             Assert.True(distanceFound, "Distance should have been found since the vertex is accessible from root.");
         }
 
@@ -118,7 +117,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
 
             IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
-            var distanceFound = algorithm.TryGetDistance(3, out _);
+            bool distanceFound = algorithm.TryGetDistance(3, out _);
             Assert.True(distanceFound, "Distance should have been found since the vertex exist in the graph.");
         }
 
@@ -135,7 +134,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
 
             IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
-            algorithm.TryGetDistance(2, out var distance);
+            algorithm.TryGetDistance(2, out double distance);
             Assert.AreEqual(algorithm.Distances[2], distance);
         }
 

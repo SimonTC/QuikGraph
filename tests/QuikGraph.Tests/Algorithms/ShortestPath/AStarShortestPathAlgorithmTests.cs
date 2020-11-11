@@ -14,7 +14,7 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
     /// Tests for <see cref="AStarShortestPathAlgorithm{TVertex,TEdge}"/>.
     /// </summary>
     [TestFixture]
-    internal class AStartShortestPathAlgorithmTests : ShortestPathAlgorithmTestsBase
+    internal class AStartShortestPathAlgorithmTests : RootedAlgorithmTestsBase
     {
         #region Test helpers
 

@@ -5,7 +5,6 @@ using JetBrains.Annotations;
 using NUnit.Framework;
 using QuikGraph.Algorithms;
 using QuikGraph.Algorithms.TSP;
-using QuikGraph.Tests.Algorithms.ShortestPath;
 using static QuikGraph.Tests.Algorithms.AlgorithmTestHelpers;
 
 namespace QuikGraph.Tests.Algorithms.TSP
@@ -14,7 +13,7 @@ namespace QuikGraph.Tests.Algorithms.TSP
     /// Tests for <see cref="TSP{TVertex,TEdge,TGraph}"/>.
     /// </summary>
     [TestFixture]
-    internal class TSPTests : ShortestPathAlgorithmTestsBase
+    internal class TSPTests : RootedAlgorithmTestsBase
     {
         #region Test helpers & classes
 
@@ -169,6 +168,29 @@ namespace QuikGraph.Tests.Algorithms.TSP
             var graph = new BidirectionalGraph<TestVertex, EquatableEdge<TestVertex>>();
             ComputeWithRoot_Throws_Test(
                 () => new TSP<TestVertex, EquatableEdge<TestVertex>, BidirectionalGraph<TestVertex, EquatableEdge<TestVertex>>>(graph, edge => 1.0));
+        }
+
+        #endregion
+
+        #region Shortest path algorithm
+
+        [Test]
+        public void TryGetDistance_Throws()
+        {
+            // Algorithm don't use the Distances
+            var graph = new BidirectionalGraph<int, EquatableEdge<int>>();
+            graph.AddVertex(1);
+            var algorithm = new TSP<int, EquatableEdge<int>, BidirectionalGraph<int, EquatableEdge<int>>>(graph, edge => 1.0);
+            algorithm.Compute(1);
+            Assert.IsFalse(algorithm.TryGetDistance(1, out double _));
+
+            var graph2 = new BidirectionalGraph<TestVertex, EquatableEdge<TestVertex>>();
+            var algorithm2 = new TSP<TestVertex, EquatableEdge<TestVertex>, BidirectionalGraph<TestVertex, EquatableEdge<TestVertex>>>(graph2, edge => 1.0);
+            // ReSharper disable once AssignNullToNotNullAttribute
+            Assert.Throws<ArgumentNullException>(() => algorithm2.TryGetDistance(null, out _));
+
+            var vertex = new TestVertex();
+            Assert.Throws<InvalidOperationException>(() => algorithm2.TryGetDistance(vertex, out _));
         }
 
         #endregion
