@@ -64,7 +64,10 @@ namespace QuikGraph.Algorithms.ShortestPath
             return Distances.TryGetValue(vertex, out distance);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Vertices distances.
+        /// </summary>
+        [Obsolete("Access distances through the members exposed through the IDistancesCollection interface")]
         public IDictionary<TVertex, double> Distances { get; private set; }
 
         /// <inheritdoc />
