@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
+using QuikGraph.Collections;
 
 namespace QuikGraph.Algorithms
 {
@@ -21,5 +22,11 @@ namespace QuikGraph.Algorithms
         /// Vertices distances.
         /// </summary>
         IDictionary<TVertex, double> Distances { get; }
+
+        /// <summary>
+        /// Gets the distances for all vertices currently known.
+        /// </summary>
+        /// <returns>The <see cref="KeyValuePair{Vertex,Distance}"/> for the known vertices.</returns>
+        IEnumerable<KeyValuePair<TVertex, double>> GetDistances();
     }
 }

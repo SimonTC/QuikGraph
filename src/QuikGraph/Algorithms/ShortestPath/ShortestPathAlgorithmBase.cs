@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using JetBrains.Annotations;
 using QuikGraph.Algorithms.Services;
 
@@ -65,6 +66,9 @@ namespace QuikGraph.Algorithms.ShortestPath
 
         /// <inheritdoc />
         public IDictionary<TVertex, double> Distances { get; private set; }
+
+        /// <inheritdoc />
+        public IEnumerable<KeyValuePair<TVertex, double>> GetDistances() => Distances.Select(pair => pair);
 
         /// <summary>
         /// Gets the function that gives access to distances from a vertex.

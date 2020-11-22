@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using NUnit.Framework;
 using QuikGraph.Algorithms;
@@ -136,6 +138,24 @@ namespace QuikGraph.Tests.Algorithms.Contracts
 
             algorithm.TryGetDistance(2, out double distance);
             Assert.AreEqual(algorithm.Distances[2], distance);
+        }
+
+        [Test]
+        public void DistancesForAllVerticesInGraphReturnedOnCallToGetDistances()
+        {
+            var scenario = new ContractScenario<int>
+            {
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
+                SingleVerticesInGraph = new[] { 3 },
+                AccessibleVerticesFromRoot = new[] { 2 },
+                Root = 1,
+                DoComputation = true
+            };
+
+            IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
+
+            IEnumerable<KeyValuePair<int, double>> distances = algorithm.GetDistances();
+            CollectionAssert.AreEquivalent(new [] {1, 2, 3}, distances.Select(pair => pair.Key));
         }
 
         [Pure]
