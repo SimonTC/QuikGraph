@@ -124,23 +124,6 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         }
 
         [Test]
-        public void TryGetDistanceReturnsSameDistanceAsDistanceDictionary()
-        {
-            var scenario = new ContractScenario<int>
-            {
-                EdgesInGraph = new[] { new Edge<int>(1, 2) },
-                AccessibleVerticesFromRoot = new[] { 2 },
-                Root = 1,
-                DoComputation = true
-            };
-
-            IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
-
-            algorithm.TryGetDistance(2, out double distance);
-            Assert.AreEqual(algorithm.Distances[2], distance);
-        }
-
-        [Test]
         public void DistancesForAllVerticesInGraphReturnedOnCallToGetDistances()
         {
             var scenario = new ContractScenario<int>

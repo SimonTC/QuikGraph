@@ -19,11 +19,6 @@ namespace QuikGraph.Algorithms
         bool TryGetDistance([NotNull] TVertex vertex, out double distance);
 
         /// <summary>
-        /// Vertices distances.
-        /// </summary>
-        IDictionary<TVertex, double> Distances { get; }
-
-        /// <summary>
         /// Gets the distances for all vertices currently known.
         /// </summary>
         /// <returns>The <see cref="KeyValuePair{Vertex,Distance}"/> for the known vertices.</returns>
