@@ -70,14 +70,6 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <summary>
         /// Vertices distances.
         /// </summary>
-        private void SetDistances(IDictionary<TVertex, double> value)
-        {
-            _distances = value;
-        }
-
-        /// <summary>
-        /// Vertices distances.
-        /// </summary>
         public IDictionary<TVertex, double> GetDistances()
         {
             return _distances;
@@ -116,7 +108,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             base.Initialize();
 
             VerticesColors = new Dictionary<TVertex, GraphColor>(VisitedGraph.VertexCount);
-            SetDistances(new Dictionary<TVertex, double>(VisitedGraph.VertexCount));
+            _distances = new Dictionary<TVertex, double>(VisitedGraph.VertexCount);
         }
 
         #endregion
