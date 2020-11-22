@@ -137,7 +137,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
 
             IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
-            IEnumerable<KeyValuePair<int, double>> distances = algorithm.GetDistances();
+            IEnumerable<KeyValuePair<int, double>> distances = algorithm.GetDistances2();
             CollectionAssert.AreEquivalent(new [] {1, 2, 3}, distances.Select(pair => pair.Key));
         }
 

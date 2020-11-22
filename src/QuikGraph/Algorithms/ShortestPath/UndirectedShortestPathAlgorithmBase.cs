@@ -20,6 +20,11 @@ namespace QuikGraph.Algorithms.ShortestPath
         where TEdge : IEdge<TVertex>
     {
         /// <summary>
+        ///
+        /// </summary>
+        protected IDictionary<TVertex, double> _distances;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UndirectedShortestPathAlgorithmBase{TVertex,TEdge}"/> class.
         /// </summary>
         /// <param name="host">Host to use if set, otherwise use this reference.</param>
@@ -56,20 +61,30 @@ namespace QuikGraph.Algorithms.ShortestPath
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
-            if (Distances is null)
+            if (GetDistances() is null)
                 throw new InvalidOperationException("Run the algorithm before.");
 
-            return Distances.TryGetValue(vertex, out distance);
+            return GetDistances().TryGetValue(vertex, out distance);
         }
 
         /// <summary>
         /// Vertices distances.
         /// </summary>
-        [Obsolete("Access distances through the members exposed through the IDistancesCollection interface")]
-        public IDictionary<TVertex, double> Distances { get; private set; }
+        private void SetDistances(IDictionary<TVertex, double> value)
+        {
+            _distances = value;
+        }
+
+        /// <summary>
+        /// Vertices distances.
+        /// </summary>
+        public IDictionary<TVertex, double> GetDistances()
+        {
+            return _distances;
+        }
 
         /// <inheritdoc />
-        public IEnumerable<KeyValuePair<TVertex, double>> GetDistances() => Distances.Select(pair => pair);
+        public IEnumerable<KeyValuePair<TVertex, double>> GetDistances2() => GetDistances().Select(pair => pair);
 
         /// <summary>
         /// Gets the function that gives access to distances from a vertex.
@@ -78,7 +93,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         [NotNull]
         protected Func<TVertex, double> DistancesIndexGetter()
         {
-            return AlgorithmExtensions.GetIndexer(Distances);
+            return AlgorithmExtensions.GetIndexer(GetDistances());
         }
 
         /// <summary>
@@ -101,7 +116,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             base.Initialize();
 
             VerticesColors = new Dictionary<TVertex, GraphColor>(VisitedGraph.VertexCount);
-            Distances = new Dictionary<TVertex, double>(VisitedGraph.VertexCount);
+            SetDistances(new Dictionary<TVertex, double>(VisitedGraph.VertexCount));
         }
 
         #endregion
@@ -163,15 +178,15 @@ namespace QuikGraph.Algorithms.ShortestPath
                 (EqualityComparer<TVertex>.Default.Equals(edge.Source, target)
                     && EqualityComparer<TVertex>.Default.Equals(edge.Target, source)));
 
-            double du = Distances[source];
-            double dv = Distances[target];
+            double du = GetDistances()[source];
+            double dv = GetDistances()[target];
             double we = Weights(edge);
 
             IDistanceRelaxer relaxer = DistanceRelaxer;
             double duwe = relaxer.Combine(du, we);
             if (relaxer.Compare(duwe, dv) < 0)
             {
-                Distances[target] = duwe;
+                GetDistances()[target] = duwe;
                 return true;
             }
 

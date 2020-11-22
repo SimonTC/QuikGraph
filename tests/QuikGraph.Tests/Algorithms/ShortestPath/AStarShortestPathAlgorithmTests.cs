@@ -51,8 +51,8 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
             using (predecessors.Attach(algorithm))
                 algorithm.Compute(root);
 
-            Assert.IsNotNull(algorithm.Distances);
-            Assert.AreEqual(graph.VertexCount, algorithm.Distances.Count);
+            Assert.IsNotNull(algorithm.GetDistances());
+            Assert.AreEqual(graph.VertexCount, algorithm.GetDistances().Count);
 
             Verify(algorithm, predecessors);
         }
@@ -114,7 +114,7 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
                     Assert.IsNotNull(algo.Weights);
                 else
                     Assert.AreSame(eWeights, algo.Weights);
-                Assert.IsNull(algo.Distances);
+                Assert.IsNull(algo.GetDistances());
                 if (relaxer is null)
                     Assert.IsNotNull(algo.DistanceRelaxer);
                 else
@@ -405,7 +405,7 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
             var algorithm = new AStarShortestPathAlgorithm<int, Edge<int>>(
                 lineGraph,
                 e => 1.0,
-                v => 
+                v =>
                 {
                     // Goal is 2, h(v) = v
                     heuristicCalls.Add(v);

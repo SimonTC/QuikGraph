@@ -51,8 +51,8 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
             using (predecessors.Attach(algorithm))
                 algorithm.Compute(root);
 
-            Assert.IsNotNull(algorithm.Distances);
-            Assert.AreEqual(graph.VertexCount, algorithm.Distances.Count);
+            Assert.IsNotNull(algorithm.GetDistances());
+            Assert.AreEqual(graph.VertexCount, algorithm.GetDistances().Count);
 
             Verify(algorithm, predecessors);
         }
@@ -108,7 +108,7 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
                     Assert.IsNotNull(algo.Weights);
                 else
                     Assert.AreSame(eWeights, algo.Weights);
-                Assert.IsNull(algo.Distances);
+                Assert.IsNull(algo.GetDistances());
                 if (relaxer is null)
                     Assert.IsNotNull(algo.DistanceRelaxer);
                 else
@@ -327,7 +327,7 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
                 // Run the algorithm with A set to be the source
                 algorithm.Compute("A");
 
-            Assert.AreEqual(74, algorithm.Distances["E"], double.Epsilon);
+            Assert.AreEqual(74, algorithm.GetDistances()["E"], double.Epsilon);
         }
 
         [Test]
@@ -352,11 +352,11 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
             using (predecessors.Attach(algorithm))
                 algorithm.Compute('A');
 
-            Assert.AreEqual(0, algorithm.Distances['A']);
-            Assert.AreEqual(6, algorithm.Distances['B']);
-            Assert.AreEqual(1, algorithm.Distances['C']);
-            Assert.AreEqual(4, algorithm.Distances['D']);
-            Assert.AreEqual(5, algorithm.Distances['E']);
+            Assert.AreEqual(0, algorithm.GetDistances()['A']);
+            Assert.AreEqual(6, algorithm.GetDistances()['B']);
+            Assert.AreEqual(1, algorithm.GetDistances()['C']);
+            Assert.AreEqual(4, algorithm.GetDistances()['D']);
+            Assert.AreEqual(5, algorithm.GetDistances()['E']);
 
             #region Local function
 
@@ -398,9 +398,9 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
             var algorithm = new DijkstraShortestPathAlgorithm<int, Edge<int>>(graph, e => 1);
             algorithm.Compute(1);
 
-            Assert.AreEqual(0d, algorithm.Distances[1]);
-            Assert.AreEqual(2d, algorithm.Distances[3]);
-            Assert.AreEqual(1d, algorithm.Distances[2]);
+            Assert.AreEqual(0d, algorithm.GetDistances()[1]);
+            Assert.AreEqual(2d, algorithm.GetDistances()[3]);
+            Assert.AreEqual(1d, algorithm.GetDistances()[2]);
         }
 
         [Test]
@@ -446,9 +446,9 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
             var algorithm = new DijkstraShortestPathAlgorithm<int, Edge<int>>(graph, e => 1);
             algorithm.Compute(1);
 
-            Assert.AreEqual(0.0, algorithm.Distances[1]);
-            Assert.AreEqual(1.0, algorithm.Distances[2]);
-            Assert.AreEqual(1.0, algorithm.Distances[3]);
+            Assert.AreEqual(0.0, algorithm.GetDistances()[1]);
+            Assert.AreEqual(1.0, algorithm.GetDistances()[2]);
+            Assert.AreEqual(1.0, algorithm.GetDistances()[3]);
         }
 
         [Test]

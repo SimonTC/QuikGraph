@@ -22,6 +22,6 @@ namespace QuikGraph.Algorithms
         /// Gets the distances for all vertices currently known.
         /// </summary>
         /// <returns>The <see cref="KeyValuePair{Vertex,Distance}"/> for the known vertices.</returns>
-        IEnumerable<KeyValuePair<TVertex, double>> GetDistances();
+        IEnumerable<KeyValuePair<TVertex, double>> GetDistances2();
     }
 }
