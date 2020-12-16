@@ -174,7 +174,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         }
 
         [Test]
-        public void DistancesForAllVerticesInGraphReturned()
+        public void DistancesForAllVerticesInGraphReturnedWhenAlgorithmHasBeenRun()
         {
             var scenario = new ContractScenario<int>
             {
@@ -189,6 +189,24 @@ namespace QuikGraph.Tests.Algorithms.Contracts
 
             IEnumerable<KeyValuePair<int, double>> distances = algorithm.GetKnownDistances();
             CollectionAssert.AreEquivalent(new[] {1, 2, 3}, distances.Select(pair => pair.Key));
+        }
+
+        [Test]
+        public void EmptyCollectionReturned_WhenAlgorithmHasNotYetBeenRun()
+        {
+            var scenario = new ContractScenario<int>
+            {
+                EdgesInGraph = new[] {new Edge<int>(1, 2)},
+                SingleVerticesInGraph = new[] {3},
+                AccessibleVerticesFromRoot = new[] {2},
+                Root = 1,
+                DoComputation = false
+            };
+
+            IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
+
+            IEnumerable<KeyValuePair<int, double>> distances = algorithm.GetKnownDistances();
+            CollectionAssert.IsEmpty(distances);
         }
     }
 }
