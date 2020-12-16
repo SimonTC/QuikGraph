@@ -130,7 +130,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             if (decreased)
             {
                 TVertex target = edge.Target;
-                double distance = GetDistances()[target];
+                double distance = GetDistance(target);
 
                 _costs[target] = DistanceRelaxer.Combine(distance, CostHeuristic(target));
                 OnTreeEdge(edge);
@@ -149,7 +149,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             if (decreased)
             {
                 TVertex target = edge.Target;
-                double distance = GetDistances()[target];
+                double distance = GetDistance(target);
 
                 _costs[target] = DistanceRelaxer.Combine(distance, CostHeuristic(target));
                 _vertexQueue.Update(target);
@@ -169,7 +169,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             if (decreased)
             {
                 TVertex target = edge.Target;
-                double distance = GetDistances()[target];
+                double distance = GetDistance(target);
 
                 OnTreeEdge(edge);
                 _costs[target] = DistanceRelaxer.Combine(distance, CostHeuristic(target));
@@ -199,7 +199,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             foreach (TVertex vertex in VisitedGraph.Vertices)
             {
                 VerticesColors.Add(vertex, GraphColor.White);
-                GetDistances().Add(vertex, initialDistance);
+                SetDistance(vertex, initialDistance);
                 _costs.Add(vertex, initialDistance);
             }
 
@@ -233,7 +233,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             Debug.Assert(VerticesColors[rootVertex] == GraphColor.White);
 
             VerticesColors[rootVertex] = GraphColor.Gray;
-            GetDistances()[rootVertex] = 0;
+            SetDistance(rootVertex, 0);
             ComputeNoInit(rootVertex);
         }
 

@@ -327,7 +327,7 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
                 // Run the algorithm with A set to be the source
                 algorithm.Compute("A");
 
-            Assert.AreEqual(74, algorithm.GetDistances()["E"], double.Epsilon);
+            Assert.AreEqual(74, algorithm.GetDistance("E"), double.Epsilon);
         }
 
         [Test]
@@ -352,11 +352,11 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
             using (predecessors.Attach(algorithm))
                 algorithm.Compute('A');
 
-            Assert.AreEqual(0, algorithm.GetDistances()['A']);
-            Assert.AreEqual(6, algorithm.GetDistances()['B']);
-            Assert.AreEqual(1, algorithm.GetDistances()['C']);
-            Assert.AreEqual(4, algorithm.GetDistances()['D']);
-            Assert.AreEqual(5, algorithm.GetDistances()['E']);
+            Assert.AreEqual(0, algorithm.GetDistance('A'));
+            Assert.AreEqual(6, algorithm.GetDistance('B'));
+            Assert.AreEqual(1, algorithm.GetDistance('C'));
+            Assert.AreEqual(4, algorithm.GetDistance('D'));
+            Assert.AreEqual(5, algorithm.GetDistance('E'));
 
             #region Local function
 
@@ -398,9 +398,9 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
             var algorithm = new DijkstraShortestPathAlgorithm<int, Edge<int>>(graph, e => 1);
             algorithm.Compute(1);
 
-            Assert.AreEqual(0d, algorithm.GetDistances()[1]);
-            Assert.AreEqual(2d, algorithm.GetDistances()[3]);
-            Assert.AreEqual(1d, algorithm.GetDistances()[2]);
+            Assert.AreEqual(0d, algorithm.GetDistance(1));
+            Assert.AreEqual(2d, algorithm.GetDistance(3));
+            Assert.AreEqual(1d, algorithm.GetDistance(2));
         }
 
         [Test]
@@ -446,9 +446,9 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
             var algorithm = new DijkstraShortestPathAlgorithm<int, Edge<int>>(graph, e => 1);
             algorithm.Compute(1);
 
-            Assert.AreEqual(0.0, algorithm.GetDistances()[1]);
-            Assert.AreEqual(1.0, algorithm.GetDistances()[2]);
-            Assert.AreEqual(1.0, algorithm.GetDistances()[3]);
+            Assert.AreEqual(0.0, algorithm.GetDistance(1));
+            Assert.AreEqual(1.0, algorithm.GetDistance(2));
+            Assert.AreEqual(1.0, algorithm.GetDistance(3));
         }
 
         [Test]

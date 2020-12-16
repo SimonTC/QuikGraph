@@ -151,7 +151,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             foreach (TVertex vertex in VisitedGraph.Vertices)
             {
                 VerticesColors[vertex] = GraphColor.White;
-                GetDistances()[vertex] = initialDistance;
+                SetDistance(vertex, initialDistance);
                 OnVertexInitialized(vertex);
             }
         }
@@ -161,7 +161,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         {
             TVertex root = GetAndAssertRootInGraph();
             VerticesColors[root] = GraphColor.Gray;
-            GetDistances()[root] = 0;
+            SetDistance(root, 0);
             ComputeNoInit(root);
         }
 

@@ -78,6 +78,12 @@ namespace QuikGraph.Algorithms.ShortestPath
             return distance;
         }
 
+        /// <inheritdoc />
+        public void SetDistance(TVertex vertex, double distance)
+        {
+            _distances[vertex] = distance;
+        }
+
         /// <summary>
         /// Vertices distances.
         /// </summary>

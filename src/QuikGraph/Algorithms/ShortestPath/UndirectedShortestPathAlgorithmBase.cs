@@ -76,6 +76,12 @@ namespace QuikGraph.Algorithms.ShortestPath
             return distance;
         }
 
+        /// <inheritdoc />
+        public void SetDistance(TVertex vertex, double distance)
+        {
+            _distances[vertex] = distance;
+        }
+
         /// <summary>
         /// Vertices distances.
         /// </summary>
@@ -85,7 +91,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         }
 
         /// <inheritdoc />
-        public IEnumerable<KeyValuePair<TVertex, double>> GetDistances2() => GetDistances().Select(pair => pair);
+        public IEnumerable<KeyValuePair<TVertex, double>> GetDistances2() => _distances.Select(pair => pair);
 
         /// <summary>
         /// Gets the function that gives access to distances from a vertex.
@@ -94,7 +100,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         [NotNull]
         protected Func<TVertex, double> DistancesIndexGetter()
         {
-            return AlgorithmExtensions.GetIndexer(GetDistances());
+            return AlgorithmExtensions.GetIndexer(_distances);
         }
 
         /// <summary>
@@ -179,15 +185,15 @@ namespace QuikGraph.Algorithms.ShortestPath
                 (EqualityComparer<TVertex>.Default.Equals(edge.Source, target)
                     && EqualityComparer<TVertex>.Default.Equals(edge.Target, source)));
 
-            double du = GetDistances()[source];
-            double dv = GetDistances()[target];
+            double du = GetDistance(source);
+            double dv = GetDistance(target);
             double we = Weights(edge);
 
             IDistanceRelaxer relaxer = DistanceRelaxer;
             double duwe = relaxer.Combine(du, we);
             if (relaxer.Compare(duwe, dv) < 0)
             {
-                GetDistances()[target] = duwe;
+                SetDistance(target, duwe);
                 return true;
             }
 

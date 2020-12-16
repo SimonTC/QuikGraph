@@ -160,7 +160,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             foreach (TVertex vertex in VisitedGraph.Vertices)
             {
                 VerticesColors[vertex] = GraphColor.White;
-                GetDistances()[vertex] = double.PositiveInfinity;
+                SetDistance(vertex, double.PositiveInfinity);
                 OnInitializeVertex(vertex);
             }
 
@@ -174,7 +174,7 @@ namespace QuikGraph.Algorithms.ShortestPath
                 throw new VertexNotFoundException("Root vertex is not part of the graph.");
             }
 
-            GetDistances()[root] = 0;
+            SetDistance(root, 0);
         }
 
         /// <summary>
@@ -214,8 +214,8 @@ namespace QuikGraph.Algorithms.ShortestPath
             {
                 double edgeWeight = Weights(edge);
                 if (relaxer.Compare(
-                        relaxer.Combine(GetDistances()[edge.Source], edgeWeight),
-                        GetDistances()[edge.Target]) < 0)
+                        relaxer.Combine(GetDistance(edge.Source), edgeWeight),
+                        GetDistance(edge.Target)) < 0)
                 {
                     OnEdgeMinimized(edge);
                     FoundNegativeCycle = true;
