@@ -61,10 +61,19 @@ namespace QuikGraph.Algorithms.ShortestPath
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
-            if (GetDistances() is null)
+            if (_distances is null)
                 throw new InvalidOperationException("Run the algorithm before.");
 
-            return GetDistances().TryGetValue(vertex, out distance);
+            return _distances.TryGetValue(vertex, out distance);
+        }
+
+        /// <inheritdoc />
+        public double GetDistance(TVertex vertex)
+        {
+            bool keyFound = TryGetDistance(vertex, out double distance);
+            if (! keyFound)
+                throw new KeyNotFoundException($"No distance for vertex {vertex} recorded");
+            return distance;
         }
 
         /// <summary>

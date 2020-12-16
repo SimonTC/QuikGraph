@@ -63,10 +63,19 @@ namespace QuikGraph.Algorithms.ShortestPath
         {
             if (vertex == null)
                 throw new ArgumentNullException(nameof(vertex));
-            if (GetDistances() is null)
+            if (_distances is null)
                 throw new InvalidOperationException("Run the algorithm before.");
 
-            return GetDistances().TryGetValue(vertex, out distance);
+            return _distances.TryGetValue(vertex, out distance);
+        }
+
+        /// <inheritdoc />
+        public double GetDistance(TVertex vertex)
+        {
+            bool keyFound = TryGetDistance(vertex, out double distance);
+            if (! keyFound)
+                throw new KeyNotFoundException($"No distance for vertex {vertex} recorded");
+            return distance;
         }
 
         /// <summary>
@@ -78,7 +87,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         }
 
         /// <inheritdoc />
-        public IEnumerable<KeyValuePair<TVertex, double>> GetDistances2() => GetDistances().Select(pair => pair);
+        public IEnumerable<KeyValuePair<TVertex, double>> GetDistances2() => _distances.Select(pair => pair);
 
         /// <summary>
         /// Gets the function that gives access to distances from a vertex.
@@ -87,7 +96,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         [NotNull]
         protected Func<TVertex, double> DistancesIndexGetter()
         {
-            return AlgorithmExtensions.GetIndexer(GetDistances());
+            return AlgorithmExtensions.GetIndexer(_distances);
         }
 
         /// <summary>
@@ -161,14 +170,14 @@ namespace QuikGraph.Algorithms.ShortestPath
 
             TVertex source = edge.Source;
             TVertex target = edge.Target;
-            double du = GetDistances()[source];
-            double dv = GetDistances()[target];
+            double du = GetDistance(source);
+            double dv = GetDistance(target);
             double we = Weights(edge);
 
             double duwe = DistanceRelaxer.Combine(du, we);
             if (DistanceRelaxer.Compare(duwe, dv) < 0)
             {
-                GetDistances()[target] = duwe;
+                _distances[target] = duwe;
                 return true;
             }
 
