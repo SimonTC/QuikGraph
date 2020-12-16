@@ -27,13 +27,6 @@ namespace QuikGraph.Algorithms
         double GetDistance(TVertex vertex);
 
         /// <summary>
-        /// Sets the distance associated to the given <paramref name="vertex"/>.
-        /// </summary>
-        /// <param name="vertex">The vertex to get the distance for.</param>
-        /// <param name="distance">The distance.</param>
-        void SetDistance(TVertex vertex, double distance);
-
-        /// <summary>
         /// Gets the distances for all vertices currently known.
         /// </summary>
         /// <returns>The <see cref="KeyValuePair{Vertex,Distance}"/> for the known vertices.</returns>

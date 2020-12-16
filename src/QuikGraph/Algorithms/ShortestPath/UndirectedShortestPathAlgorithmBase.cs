@@ -76,8 +76,12 @@ namespace QuikGraph.Algorithms.ShortestPath
             return distance;
         }
 
-        /// <inheritdoc />
-        public void SetDistance(TVertex vertex, double distance)
+        /// <summary>
+        /// Sets the distance associated to the given <paramref name="vertex"/>.
+        /// </summary>
+        /// <param name="vertex">The vertex to get the distance for.</param>
+        /// <param name="distance">The distance.</param>
+        protected void SetDistance(TVertex vertex, double distance)
         {
             _distances[vertex] = distance;
         }
