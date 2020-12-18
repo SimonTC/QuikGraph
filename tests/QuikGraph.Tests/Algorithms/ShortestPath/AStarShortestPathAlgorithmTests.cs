@@ -51,8 +51,8 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
             using (predecessors.Attach(algorithm))
                 algorithm.Compute(root);
 
-            Assert.IsNotEmpty(algorithm.GetKnownDistances());
-            Assert.AreEqual(graph.VertexCount, algorithm.GetKnownDistances().Count());
+            Assert.IsNotEmpty(algorithm.GetDistances());
+            Assert.AreEqual(graph.VertexCount, algorithm.GetDistances().Count());
 
             Verify(algorithm, predecessors);
         }
@@ -114,7 +114,7 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
                     Assert.IsNotNull(algo.Weights);
                 else
                     Assert.AreSame(eWeights, algo.Weights);
-                Assert.IsEmpty(algo.GetKnownDistances());
+                Assert.IsEmpty(algo.GetDistances());
                 if (relaxer is null)
                     Assert.IsNotNull(algo.DistanceRelaxer);
                 else

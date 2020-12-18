@@ -84,7 +84,7 @@ namespace QuikGraph.Tests.Algorithms.TSP
                     Assert.IsNotNull(algo.Weights);
                 else
                     Assert.AreSame(eWeights, algo.Weights);
-                Assert.IsEmpty(algo.GetKnownDistances());
+                Assert.IsEmpty(algo.GetDistances());
                 Assert.AreSame(DistanceRelaxers.ShortestDistance, algo.DistanceRelaxer);
             }
 

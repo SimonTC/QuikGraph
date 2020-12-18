@@ -93,7 +93,7 @@ namespace QuikGraph.Algorithms.ShortestPath
         public IDictionary<TVertex, double> Distances => _distances;
 
         /// <inheritdoc />
-        public IEnumerable<KeyValuePair<TVertex, double>> GetKnownDistances()
+        public IEnumerable<KeyValuePair<TVertex, double>> GetDistances()
         {
             return _distances?.Select(pair => pair) ?? new KeyValuePair<TVertex, double>[0];
         }

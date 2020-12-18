@@ -279,7 +279,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
 
             IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
-            IEnumerable<KeyValuePair<int, double>> distances = algorithm.GetKnownDistances();
+            IEnumerable<KeyValuePair<int, double>> distances = algorithm.GetDistances();
             CollectionAssert.AreEquivalent(new[] {1, 2, 3}, distances.Select(pair => pair.Key));
         }
 
@@ -297,7 +297,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
 
             IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
-            IEnumerable<KeyValuePair<int, double>> distances = algorithm.GetKnownDistances();
+            IEnumerable<KeyValuePair<int, double>> distances = algorithm.GetDistances();
             CollectionAssert.IsEmpty(distances);
         }
     }
