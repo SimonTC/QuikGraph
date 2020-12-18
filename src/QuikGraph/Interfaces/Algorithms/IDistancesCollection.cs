@@ -23,7 +23,7 @@ namespace QuikGraph.Algorithms
         /// </summary>
         /// <param name="vertex">The vertex to get the distance for.</param>
         /// <returns>The distance associated with the vertex.</returns>
-        double GetDistance(TVertex vertex);
+        double GetDistance([NotNull] TVertex vertex);
 
         /// <summary>
         /// Gets the distances for all vertices currently known.
