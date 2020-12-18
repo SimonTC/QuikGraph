@@ -45,8 +45,8 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
                 Assert.AreEqual(GraphColor.Black, algorithm.VerticesColors[vertex]);
             };
 
-            Assert.IsNotNull(algorithm.GetDistances());
-            Assert.AreEqual(graph.VertexCount, algorithm.GetDistances().Count);
+            Assert.IsNotEmpty(algorithm.GetKnownDistances());
+            Assert.AreEqual(graph.VertexCount, algorithm.GetKnownDistances().Count());
 
             Verify(algorithm, predecessors);
         }
@@ -102,7 +102,7 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
                     Assert.IsNotNull(algo.Weights);
                 else
                     Assert.AreSame(eWeights, algo.Weights);
-                Assert.IsNull(algo.GetDistances());
+                Assert.IsEmpty(algo.GetKnownDistances());
                 if (relaxer is null)
                     Assert.IsNotNull(algo.DistanceRelaxer);
                 else
