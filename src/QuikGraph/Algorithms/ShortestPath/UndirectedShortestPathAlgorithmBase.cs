@@ -20,9 +20,9 @@ namespace QuikGraph.Algorithms.ShortestPath
         where TEdge : IEdge<TVertex>
     {
         /// <summary>
-        ///
+        /// Vertices distances.
         /// </summary>
-        protected IDictionary<TVertex, double> _distances;
+        private IDictionary<TVertex, double> _distances;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UndirectedShortestPathAlgorithmBase{TVertex,TEdge}"/> class.

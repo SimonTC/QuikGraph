@@ -22,9 +22,9 @@ namespace QuikGraph.Algorithms.ShortestPath
         where TGraph : IVertexSet<TVertex>
     {
         /// <summary>
-        /// Backing field
+        /// Vertices distances.
         /// </summary>
-        protected IDictionary<TVertex, double> _distances;
+        private IDictionary<TVertex, double> _distances;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ShortestPathAlgorithmBase{TVertex,TEdge,TGraph}"/> class.

@@ -39,7 +39,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         protected IDistancesCollection<T> CreateAlgorithmAndMaybeDoComputation<T>(
             [NotNull] ContractScenario<T> scenario)
         {
-            var instantiateAlgorithm = GetAlgorithmFactory<T>();
+            Func<ContractScenario<T>, IDistancesCollection<T>> instantiateAlgorithm = GetAlgorithmFactory<T>();
             return instantiateAlgorithm(scenario);
         }
 
