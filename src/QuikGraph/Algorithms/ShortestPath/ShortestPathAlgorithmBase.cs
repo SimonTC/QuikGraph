@@ -91,10 +91,8 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <summary>
         /// Vertices distances.
         /// </summary>
-        public IDictionary<TVertex, double> GetDistances()
-        {
-            return _distances;
-        }
+        [Obsolete("Use methods on IDistancesCollection to interact with the distances instead")]
+        public IDictionary<TVertex, double> Distances => _distances;
 
         /// <inheritdoc />
         public IEnumerable<KeyValuePair<TVertex, double>> GetKnownDistances()
