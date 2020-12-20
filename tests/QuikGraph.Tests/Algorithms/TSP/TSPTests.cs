@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -84,7 +84,7 @@ namespace QuikGraph.Tests.Algorithms.TSP
                     Assert.IsNotNull(algo.Weights);
                 else
                     Assert.AreSame(eWeights, algo.Weights);
-                Assert.IsEmpty(algo.GetDistances());
+                CollectionAssert.IsEmpty(algo.GetDistances());
                 Assert.AreSame(DistanceRelaxers.ShortestDistance, algo.DistanceRelaxer);
             }
 

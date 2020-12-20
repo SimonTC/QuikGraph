@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using JetBrains.Annotations;
 using NUnit.Framework;
@@ -98,7 +98,7 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
                 Assert.AreEqual(GraphColor.Black, algorithm.VerticesColors[vertex]);
             }
 
-            Assert.IsNotEmpty(algorithm.GetDistances());
+            CollectionAssert.IsNotEmpty(algorithm.GetDistances());
             Assert.AreEqual(graph.VertexCount, algorithm.GetDistances().Count());
 
             Verify(algorithm, predecessors);
@@ -155,7 +155,7 @@ namespace QuikGraph.Tests.Algorithms.ShortestPath
                     Assert.IsNotNull(algo.Weights);
                 else
                     Assert.AreSame(eWeights, algo.Weights);
-                Assert.IsEmpty(algo.GetDistances());
+                CollectionAssert.IsEmpty(algo.GetDistances());
                 if (relaxer is null)
                     Assert.IsNotNull(algo.DistanceRelaxer);
                 else

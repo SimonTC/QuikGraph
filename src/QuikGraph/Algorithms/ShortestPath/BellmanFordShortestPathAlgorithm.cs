@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using JetBrains.Annotations;
@@ -160,7 +160,7 @@ namespace QuikGraph.Algorithms.ShortestPath
             foreach (TVertex vertex in VisitedGraph.Vertices)
             {
                 VerticesColors[vertex] = GraphColor.White;
-                SetDistance(vertex, double.PositiveInfinity);
+                SetVertexDistance(vertex, double.PositiveInfinity);
                 OnInitializeVertex(vertex);
             }
 
@@ -174,7 +174,7 @@ namespace QuikGraph.Algorithms.ShortestPath
                 throw new VertexNotFoundException("Root vertex is not part of the graph.");
             }
 
-            SetDistance(root, 0);
+            SetVertexDistance(root, 0);
         }
 
         /// <summary>
@@ -214,8 +214,8 @@ namespace QuikGraph.Algorithms.ShortestPath
             {
                 double edgeWeight = Weights(edge);
                 if (relaxer.Compare(
-                        relaxer.Combine(GetDistance(edge.Source), edgeWeight),
-                        GetDistance(edge.Target)) < 0)
+                        relaxer.Combine(GetVertexDistance(edge.Source), edgeWeight),
+                        GetVertexDistance(edge.Target)) < 0)
                 {
                     OnEdgeMinimized(edge);
                     FoundNegativeCycle = true;

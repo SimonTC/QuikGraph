@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -15,12 +15,13 @@ namespace QuikGraph.Tests.Algorithms.Contracts
     /// Contract tests for <see cref="IDistancesCollection{TVertex}"/>.
     /// </summary>
     [TestFixtureSource(typeof(AlgorithmsProvider), nameof(AlgorithmsProvider.DistanceCollectors))]
-    internal abstract class DistancesCollectionContract
+    internal abstract class DistancesCollectionContractBase
     {
-        [NotNull] private readonly Type _testedAlgorithm;
+        [NotNull]
+        private readonly Type _testedAlgorithm;
 
         /// <summary/>
-        protected DistancesCollectionContract([NotNull] Type algorithmToTest)
+        protected DistancesCollectionContractBase([NotNull] Type algorithmToTest)
         {
             _testedAlgorithm = algorithmToTest;
         }
@@ -72,7 +73,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         }
     }
 
-    internal class TheTryGetDistanceMethod : DistancesCollectionContract
+    internal class TheTryGetDistanceMethod : DistancesCollectionContractBase
     {
         public TheTryGetDistanceMethod([NotNull] Type algorithmToTest) : base(algorithmToTest)
         {
@@ -83,8 +84,8 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         {
             var scenario = new ContractScenario<int>
             {
-                EdgesInGraph = new[] {new Edge<int>(1, 2)},
-                AccessibleVerticesFromRoot = new[] {2},
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
+                AccessibleVerticesFromRoot = new[] { 2 },
                 Root = 1,
                 DoComputation = true
             };
@@ -100,9 +101,9 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         {
             var scenario = new ContractScenario<int>
             {
-                EdgesInGraph = new[] {new Edge<int>(1, 2)},
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
                 SingleVerticesInGraph = new int[0],
-                AccessibleVerticesFromRoot = new[] {2},
+                AccessibleVerticesFromRoot = new[] { 2 },
                 Root = 1,
                 DoComputation = false
             };
@@ -117,9 +118,9 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         {
             var scenario = new ContractScenario<string>
             {
-                EdgesInGraph = new[] {new Edge<string>("1", "2")},
+                EdgesInGraph = new[] { new Edge<string>("1", "2") },
                 SingleVerticesInGraph = new string[0],
-                AccessibleVerticesFromRoot = new[] {"2"},
+                AccessibleVerticesFromRoot = new[] { "2" },
                 Root = "1",
                 DoComputation = false
             };
@@ -136,8 +137,8 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         {
             var scenario = new ContractScenario<int>
             {
-                EdgesInGraph = new[] {new Edge<int>(1, 2)},
-                AccessibleVerticesFromRoot = new[] {2},
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
+                AccessibleVerticesFromRoot = new[] { 2 },
                 Root = 1,
                 DoComputation = true
             };
@@ -153,9 +154,9 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         {
             var scenario = new ContractScenario<int>
             {
-                EdgesInGraph = new[] {new Edge<int>(1, 2)},
-                SingleVerticesInGraph = new[] {3},
-                AccessibleVerticesFromRoot = new[] {2},
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
+                SingleVerticesInGraph = new[] { 3 },
+                AccessibleVerticesFromRoot = new[] { 2 },
                 Root = 1,
                 DoComputation = true
             };
@@ -167,7 +168,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         }
     }
 
-    internal class TheGetDistanceMethod : DistancesCollectionContract
+    internal class TheGetDistanceMethod : DistancesCollectionContractBase
     {
         public TheGetDistanceMethod([NotNull] Type algorithmToTest) : base(algorithmToTest)
         {
@@ -178,15 +179,15 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         {
             var scenario = new ContractScenario<int>
             {
-                EdgesInGraph = new[] {new Edge<int>(1, 2)},
-                AccessibleVerticesFromRoot = new[] {2},
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
+                AccessibleVerticesFromRoot = new[] { 2 },
                 Root = 1,
                 DoComputation = true
             };
 
             IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
-            Assert.Throws<KeyNotFoundException>(() => algorithm.GetDistance(3));
+            Assert.Throws<VertexNotFoundException>(() => { double _ = algorithm.GetDistance(3); });
         }
 
         [Test]
@@ -194,16 +195,16 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         {
             var scenario = new ContractScenario<int>
             {
-                EdgesInGraph = new[] {new Edge<int>(1, 2)},
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
                 SingleVerticesInGraph = new int[0],
-                AccessibleVerticesFromRoot = new[] {2},
+                AccessibleVerticesFromRoot = new[] { 2 },
                 Root = 1,
                 DoComputation = false
             };
 
             IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
-            Assert.Throws<InvalidOperationException>(() => algorithm.GetDistance(2));
+            Assert.Throws<InvalidOperationException>(() => { double _ = algorithm.GetDistance(2); });
         }
 
         [Test]
@@ -211,9 +212,9 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         {
             var scenario = new ContractScenario<string>
             {
-                EdgesInGraph = new[] {new Edge<string>("1", "2")},
+                EdgesInGraph = new[] { new Edge<string>("1", "2") },
                 SingleVerticesInGraph = new string[0],
-                AccessibleVerticesFromRoot = new[] {"2"},
+                AccessibleVerticesFromRoot = new[] { "2" },
                 Root = "1",
                 DoComputation = false
             };
@@ -221,7 +222,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
             IDistancesCollection<string> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
             // ReSharper disable AssignNullToNotNullAttribute
-            Assert.Throws<ArgumentNullException>(() => algorithm.GetDistance(null));
+            Assert.Throws<ArgumentNullException>(() => { double _ = algorithm.GetDistance(null); });
             // ReSharper restore AssignNullToNotNullAttribute
         }
 
@@ -230,15 +231,15 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         {
             var scenario = new ContractScenario<int>
             {
-                EdgesInGraph = new[] {new Edge<int>(1, 2)},
-                AccessibleVerticesFromRoot = new[] {2},
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
+                AccessibleVerticesFromRoot = new[] { 2 },
                 Root = 1,
                 DoComputation = true
             };
 
             IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
-            algorithm.GetDistance(2);
+            double _ = algorithm.GetDistance(2);
         }
 
         [Test]
@@ -246,20 +247,20 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         {
             var scenario = new ContractScenario<int>
             {
-                EdgesInGraph = new[] {new Edge<int>(1, 2)},
-                SingleVerticesInGraph = new[] {3},
-                AccessibleVerticesFromRoot = new[] {2},
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
+                SingleVerticesInGraph = new[] { 3 },
+                AccessibleVerticesFromRoot = new[] { 2 },
                 Root = 1,
                 DoComputation = true
             };
 
             IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
-            algorithm.GetDistance(3);
+            double _ = algorithm.GetDistance(3);
         }
     }
 
-    internal class TheGetKnownDistancesMethod : DistancesCollectionContract
+    internal class TheGetKnownDistancesMethod : DistancesCollectionContractBase
     {
         public TheGetKnownDistancesMethod([NotNull] Type algorithmToTest) : base(algorithmToTest)
         {
@@ -270,9 +271,9 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         {
             var scenario = new ContractScenario<int>
             {
-                EdgesInGraph = new[] {new Edge<int>(1, 2)},
-                SingleVerticesInGraph = new[] {3},
-                AccessibleVerticesFromRoot = new[] {2},
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
+                SingleVerticesInGraph = new[] { 3 },
+                AccessibleVerticesFromRoot = new[] { 2 },
                 Root = 1,
                 DoComputation = true
             };
@@ -280,7 +281,7 @@ namespace QuikGraph.Tests.Algorithms.Contracts
             IDistancesCollection<int> algorithm = CreateAlgorithmAndMaybeDoComputation(scenario);
 
             IEnumerable<KeyValuePair<int, double>> distances = algorithm.GetDistances();
-            CollectionAssert.AreEquivalent(new[] {1, 2, 3}, distances.Select(pair => pair.Key));
+            CollectionAssert.AreEquivalent(new[] { 1, 2, 3 }, distances.Select(pair => pair.Key));
         }
 
         [Test]
@@ -288,9 +289,9 @@ namespace QuikGraph.Tests.Algorithms.Contracts
         {
             var scenario = new ContractScenario<int>
             {
-                EdgesInGraph = new[] {new Edge<int>(1, 2)},
-                SingleVerticesInGraph = new[] {3},
-                AccessibleVerticesFromRoot = new[] {2},
+                EdgesInGraph = new[] { new Edge<int>(1, 2) },
+                SingleVerticesInGraph = new[] { 3 },
+                AccessibleVerticesFromRoot = new[] { 2 },
                 Root = 1,
                 DoComputation = false
             };

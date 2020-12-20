@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -56,6 +56,32 @@ namespace QuikGraph.Algorithms.ShortestPath
             DistanceRelaxer = distanceRelaxer ?? throw new ArgumentNullException(nameof(distanceRelaxer));
         }
 
+        /// <summary>
+        /// Vertices distances.
+        /// </summary>
+        [Obsolete("Use methods on " + nameof(IDistancesCollection<object>) + " to interact with the distances instead.")]
+        public IDictionary<TVertex, double> Distances => _distances;
+
+        /// <summary>
+        /// Gets the distance associated to the given <paramref name="vertex"/>.
+        /// </summary>
+        /// <param name="vertex">The vertex to get the distance for.</param>
+        [Pure]
+        protected double GetVertexDistance([NotNull] TVertex vertex)
+        {
+            return _distances[vertex];
+        }
+
+        /// <summary>
+        /// Sets the distance associated to the given <paramref name="vertex"/>.
+        /// </summary>
+        /// <param name="vertex">The vertex to get the distance for.</param>
+        /// <param name="distance">The distance.</param>
+        protected void SetVertexDistance([NotNull] TVertex vertex, double distance)
+        {
+            _distances[vertex] = distance;
+        }
+
         /// <inheritdoc />
         public bool TryGetDistance(TVertex vertex, out double distance)
         {
@@ -70,32 +96,16 @@ namespace QuikGraph.Algorithms.ShortestPath
         /// <inheritdoc />
         public double GetDistance(TVertex vertex)
         {
-            bool keyFound = TryGetDistance(vertex, out double distance);
-            if (! keyFound)
-                throw new KeyNotFoundException($"No distance for vertex {vertex} recorded");
+            bool vertexFound = TryGetDistance(vertex, out double distance);
+            if (!vertexFound)
+                throw new VertexNotFoundException($"No recorded distance for vertex {vertex}.");
             return distance;
         }
-
-        /// <summary>
-        /// Sets the distance associated to the given <paramref name="vertex"/>.
-        /// </summary>
-        /// <param name="vertex">The vertex to get the distance for.</param>
-        /// <param name="distance">The distance.</param>
-        protected void SetDistance(TVertex vertex, double distance)
-        {
-            _distances[vertex] = distance;
-        }
-
-        /// <summary>
-        /// Vertices distances.
-        /// </summary>
-        [Obsolete("Use methods on IDistancesCollection to interact with the distances instead")]
-        public IDictionary<TVertex, double> Distances => _distances;
 
         /// <inheritdoc />
         public IEnumerable<KeyValuePair<TVertex, double>> GetDistances()
         {
-            return _distances?.Select(pair => pair) ?? new KeyValuePair<TVertex, double>[0];
+            return _distances?.Select(pair => pair) ?? Enumerable.Empty<KeyValuePair<TVertex, double>>();
         }
 
         /// <summary>
@@ -190,15 +200,15 @@ namespace QuikGraph.Algorithms.ShortestPath
                 (EqualityComparer<TVertex>.Default.Equals(edge.Source, target)
                     && EqualityComparer<TVertex>.Default.Equals(edge.Target, source)));
 
-            double du = GetDistance(source);
-            double dv = GetDistance(target);
+            double du = GetVertexDistance(source);
+            double dv = GetVertexDistance(target);
             double we = Weights(edge);
 
             IDistanceRelaxer relaxer = DistanceRelaxer;
             double duwe = relaxer.Combine(du, we);
             if (relaxer.Compare(duwe, dv) < 0)
             {
-                SetDistance(target, duwe);
+                SetVertexDistance(target, duwe);
                 return true;
             }
 

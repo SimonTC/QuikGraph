@@ -15,6 +15,7 @@ namespace QuikGraph.Algorithms
         /// <param name="vertex">The vertex.</param>
         /// <param name="distance">Associated distance.</param>
         /// <returns>True if the distance was found, false otherwise.</returns>
+        [Pure]
         bool TryGetDistance([NotNull] TVertex vertex, out double distance);
 
         /// <summary>
@@ -23,12 +24,15 @@ namespace QuikGraph.Algorithms
         /// </summary>
         /// <param name="vertex">The vertex to get the distance for.</param>
         /// <returns>The distance associated with the vertex.</returns>
+        [Pure]
         double GetDistance([NotNull] TVertex vertex);
 
         /// <summary>
         /// Gets the distances for all vertices currently known.
         /// </summary>
         /// <returns>The <see cref="KeyValuePair{Vertex,Distance}"/> for the known vertices.</returns>
+        [Pure]
+        [NotNull]
         IEnumerable<KeyValuePair<TVertex, double>> GetDistances();
     }
 }
